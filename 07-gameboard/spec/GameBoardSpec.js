@@ -56,3 +56,12 @@
     colisionado con objetos de cierto tipo, no con todos los objetos.
 
 */
+
+describe("Comprobar funcionalidad", function(){
+
+	it("GameBoard add", function(){
+		var game = new GameBoard();
+		expect(game.add("5")).toEqual(game.objects[0]);
+	});
+
+});
