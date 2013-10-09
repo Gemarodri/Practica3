@@ -69,6 +69,8 @@ describe("Comprobar funcionalidad", function(){
 		game.resetRemoved();
 		game.remove("5");
 		expect("5").toEqual(game.removed[0]);
+		game.finalizeRemoved("5");
+		expect(game.objects).toEqual([]);
 	});
 
 });
