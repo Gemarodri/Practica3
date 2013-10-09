@@ -64,4 +64,11 @@ describe("Comprobar funcionalidad", function(){
 		expect(game.add("5")).toEqual(game.objects[0]);
 	});
 
+	it("GameBoard removed", function(){
+		var game = new GameBoard();
+		game.resetRemoved();
+		game.remove("5");
+		expect("5").toEqual(game.removed[0]);
+	});
+
 });
