@@ -93,7 +93,8 @@ describe("GameBoard", function(){
 		};
 		var object1= new object(1,2,3,4);
 		var object2= new object(1,2,3,4);
-		var object3= new object (7,8,9,10);
+		var object3= new object (7,8,3,10);
 		expect(game.overlap(object1,object2)).toBe(true);
+		expect(game.overlap(object1,object3)).toBe(false);
 	});	
 });
