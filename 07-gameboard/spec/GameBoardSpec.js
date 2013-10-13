@@ -97,4 +97,13 @@ describe("GameBoard", function(){
 		expect(game.overlap(object1,object2)).toBe(true);
 		expect(game.overlap(object1,object3)).toBe(false);
 	});	
+
+	it("GameBoard step", function(){
+		spyOn(game, "step");
+		game.step("5");
+		//wait(200)
+		//runs (function(){
+			expect(game.step).toHaveBeenCalled();
+		//});	
+	});
 });
