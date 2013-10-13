@@ -106,4 +106,11 @@ describe("GameBoard", function(){
 			expect(game.step).toHaveBeenCalled();
 		//});	
 	});
+	
+	it("GameBoard draw", function(){
+		spyOn(game, "draw");
+		game.draw("ctx");
+		expect(game.draw).toHaveBeenCalled();
+	});
+	
 });
