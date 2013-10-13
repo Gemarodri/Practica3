@@ -57,20 +57,43 @@
 
 */
 
-describe("Comprobar funcionalidad", function(){
+describe("GameBoard", function(){
+	
+	var canvas, ctx;
 
+    beforeEach(function(){
+	loadFixtures('index.html');
+
+	canvas = $('#game')[0];
+	expect(canvas).toExist();
+
+	ctx = canvas.getContext('2d');
+	expect(ctx).toBeDefined();
+
+    });
+
+	var game= new GameBoard();
 	it("GameBoard add", function(){
-		var game = new GameBoard();
 		expect(game.add("5")).toEqual(game.objects[0]);
 	});
 
 	it("GameBoard removed", function(){
-		var game = new GameBoard();
 		game.resetRemoved();
 		game.remove("5");
 		expect("5").toEqual(game.removed[0]);
 		game.finalizeRemoved("5");
 		expect(game.objects).toEqual([]);
 	});
-
+	it("GameBoard overlap", function(){
+		 var object= function (x, y, w, h){
+			this.x=x;
+			this.y=y;
+			this.w=w;
+			this.h=h;
+		};
+		var object1= new object(1,2,3,4);
+		var object2= new object(1,2,3,4);
+		var object3= new object (7,8,9,10);
+		expect(game.overlap(object1,object2)).toBe(true);
+	});	
 });
