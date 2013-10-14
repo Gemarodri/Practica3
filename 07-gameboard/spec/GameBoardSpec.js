@@ -101,10 +101,7 @@ describe("GameBoard", function(){
 	it("GameBoard step", function(){
 		spyOn(game, "step");
 		game.step("5");
-		//wait(200)
-		//runs (function(){
-			expect(game.step).toHaveBeenCalled();
-		//});	
+		expect(game.step).toHaveBeenCalled();	
 	});
 	
 	it("GameBoard draw", function(){
@@ -124,10 +121,6 @@ describe("GameBoard", function(){
 		var object3= new object(10,10,3,4, "2");
 		var object2= new object( 7, 8, 3, 10);
 		
-		//game.add(object1);
-		//game.add(object3);
-		
-		//alert(game.objects);
 		spyOn(game, "collide");
 		
 		expect(game.collide(object2)).toBe(game.objects[2]);
@@ -157,9 +150,7 @@ describe("GameBoard", function(){
 		//_.each(game.objects,function(elem){expect(elem.iter).toHaveBeenCalled()});
 	});
 	it("GameBoard detect", function(){
-		//var dum_func= function(){
-		//	this.val=0;
-		//};
+
 		var dummy1= {
 			call: function(){},
 		};

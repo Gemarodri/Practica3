@@ -171,9 +171,9 @@ var GameBoard = function() {
 
     // Añade obj a objects
     this.add = function(obj) { 
-	obj.board=this;  // Para que obj pueda referenciar el tablero
-	this.objects.push(obj); 
-	return obj; 
+		obj.board=this;  // Para que obj pueda referenciar el tablero
+		this.objects.push(obj); 
+		return obj; 
     };
 
     // Los siguientes 3 métodos gestionan el borrado.  Cuando un board
@@ -184,7 +184,7 @@ var GameBoard = function() {
 
     // Marcar un objeto para borrar
     this.remove = function(obj) { 
-	this.removed.push(obj); 
+		this.removed.push(obj); 
     };
 
     // Inicializar la lista de objetos pendientes de ser borrados
@@ -192,72 +192,76 @@ var GameBoard = function() {
 
     // Elimina de objects los objetos pendientes de ser borrados
     this.finalizeRemoved = function() {
-	for(var i=0, len=this.removed.length; i<len;i++) {
-	    // Buscamos qué índice tiene en objects[] el objeto i de
-	    // removed[]
-	    var idx = this.objects.indexOf(this.removed[i]);
+		for(var i=0, len=this.removed.length; i<len;i++) {
+			// Buscamos qué índice tiene en objects[] el objeto i de
+			// removed[]
+			var idx = this.objects.indexOf(this.removed[i]);
 
-	    // splice elimina de objects el objeto en la posición idx
-	    if(idx != -1) this.objects.splice(idx,1); 
-	}
+			// splice elimina de objects el objeto en la posición idx
+			if(idx != -1) this.objects.splice(idx,1); 
+		}
     }
 
 
     // Iterador que aplica el método funcName a todos los
     // objetos de objects
     this.iterate = function(funcName) {
-	// Convertimos en un array args (1..)
-	var args = Array.prototype.slice.call(arguments,1);
-
-	for(var i=0, len=this.objects.length; i<len;i++) {
-	    var obj = this.objects[i];
-	    obj[funcName].apply(obj,args)
-	}
+		// Convertimos en un array args (1..)
+		var args = Array.prototype.slice.call(arguments,1);
+		var iter = function (obj) {
+			obj[funcName].apply(obj,args)
+		};
+		_(this.objects).forEach(iter);
+	//	for(var i=0, len=this.objects.length; i<len;i++) {
+	//		var obj = this.objects[i];
+	//		obj[funcName].apply(obj,args)
+	//	}
     };
 
     // Devuelve el primer objeto de objects para el que func es true
     this.detect = function(func) {
-	for(var i = 0,val=null, len=this.objects.length; i < len; i++) {
-	    if(func.call(this.objects[i])) return this.objects[i];
-	}
-	return false;
+		//for(var i = 0,val=null, len=this.objects.length; i < len; i++) {
+		//	if(func.call(this.objects[i])) return this.objects[i];
+		//}
+		//return false;
+		var primer=_.find(this.objects,function(func){return func};
     };
 
     // Cuando Game.loop() llame a step(), hay que llamar al método
     // step() de todos los objetos contenidos en el tablero.  Antes se
     // inicializa la lista de objetos pendientes de borrar, y después
     // se borran los que hayan aparecido en dicha lista
-    this.step = function(dt) { 
-	this.resetRemoved();
-	this.iterate('step',dt);
-	this.finalizeRemoved();
+	this.step = function(dt) { 
+		this.resetRemoved();
+		this.iterate('step',dt);
+		this.finalizeRemoved();
     };
 
     // Cuando Game.loop() llame a draw(), hay que llamar al método
     // draw() de todos los objetos contenidos en el tablero
     this.draw= function(ctx) {
-	this.iterate('draw',ctx);
+		this.iterate('draw',ctx);
     };
 
     // Comprobar si hay intersección entre los rectángulos que
     // circunscriben a los objetos o1 y o2
     this.overlap = function(o1,o2) {
-	// return !((o1 encima de o2)    || (o1 debajo de o2)   ||
+		// return !((o1 encima de o2)    || (o1 debajo de o2)   ||
         //          (o1 a la izda de o2) || (o1 a la dcha de o2)
-	return !((o1.y+o1.h-1<o2.y) || (o1.y>o2.y+o2.h-1) ||
-		 (o1.x+o1.w-1<o2.x) || (o1.x>o2.x+o2.w-1));
+		return !((o1.y+o1.h-1<o2.y) || (o1.y>o2.y+o2.h-1) ||
+			(o1.x+o1.w-1<o2.x) || (o1.x>o2.x+o2.w-1));
     };
 
     // Encontrar el primer objeto de tipo type que colisiona con obj
     // Si se llama sin type, en contrar el primer objeto de cualquier
     // tipo que colisiona con obj
     this.collide = function(obj,type) {
-	return this.detect(function() {
-	    if(obj != this) {
-		var col = (!type || this.type & type) && board.overlap(obj,this)
-		return col ? this : false;
-	    }
-	});
+		return this.detect(function() {
+			if(obj != this) {
+				var col = (!type || this.type & type) && board.overlap(obj,this)
+				return col ? this : false;
+			}
+		});
     };
 
 
