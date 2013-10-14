@@ -151,5 +151,26 @@ describe("GameBoard", function(){
 		game.iterate("iter");
 		_.each(game.objects,function(elem){expect(elem.iter).toHaveBeenCalled()});
 	});
-	
+	it("GameBoard underscore detect", function(){
+		//var dum_func= function(){
+		//	this.val=0;
+		//};
+		var dummy1= {
+			call: function(){},
+		};
+		var dummy2= {
+			call: function(){},
+		};	
+		game.add(dummy1);
+		game.add(dummy2);
+		spyOn(dummy1, "call"); 
+		spyOn(dummy2, "call");
+        game.detect(dummy1,dummy2);
+        waits(100);
+        runs(function(){
+			expect(game.objects[0]).toBeTruthy();
+			expect(game.objects[1]).toBeTruthy();
+        });
+		
+	});
 });
