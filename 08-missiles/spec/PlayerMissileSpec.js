@@ -63,6 +63,20 @@ describe("PlayerMissile", function(){
 		expect(SpriteSheet.draw.calls[0].args[3]).toEqual(Mymissile.y);
 
 	});
+	it(" Playermyissile step", function(){
+	
+		func = {
+			remove : function () {}
+		}
+ 
+		Mymissile = new PlayerMissile(20,30);
+		
+		spyOn(func,"remove");
+		Mymissile.board=func;
+		
+		Mymissile.step(10) 
+		expect(func.remove).toHaveBeenCalled();
+	});
 	
 	
 });
