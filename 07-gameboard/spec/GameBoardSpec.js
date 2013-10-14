@@ -57,20 +57,81 @@
 
 */
 
-describe("Comprobar funcionalidad", function(){
+describe("GameBoard", function(){
+	
+	var canvas, ctx;
 
+    beforeEach(function(){
+	loadFixtures('index.html');
+
+	canvas = $('#game')[0];
+	expect(canvas).toExist();
+
+	ctx = canvas.getContext('2d');
+	expect(ctx).toBeDefined();
+
+    });
+
+	var game= new GameBoard();
 	it("GameBoard add", function(){
-		var game = new GameBoard();
 		expect(game.add("5")).toEqual(game.objects[0]);
 	});
 
 	it("GameBoard removed", function(){
-		var game = new GameBoard();
 		game.resetRemoved();
 		game.remove("5");
 		expect("5").toEqual(game.removed[0]);
 		game.finalizeRemoved("5");
 		expect(game.objects).toEqual([]);
 	});
+	it("GameBoard overlap", function(){
+		 var object= function (x, y, w, h){
+			this.x=x;
+			this.y=y;
+			this.w=w;
+			this.h=h;
+		};
+		var object1= new object(10,11,3,4);
+		var object2= new object(10,10,3,4);
+		var object3= new object (7,8,3,10);
+		expect(game.overlap(object1,object2)).toBe(true);
+		expect(game.overlap(object1,object3)).toBe(false);
+	});	
 
+	it("GameBoard step", function(){
+		spyOn(game, "step");
+		game.step("5");
+		//wait(200)
+		//runs (function(){
+			expect(game.step).toHaveBeenCalled();
+		//});	
+	});
+	
+	it("GameBoard draw", function(){
+		spyOn(game, "draw");
+		game.draw("ctx");
+		expect(game.draw).toHaveBeenCalled();
+	});
+	it("GameBoard collide", function(){
+		 var object= function ( x, y, w, h, type){
+			this.type=type;
+			this.x=x;
+			this.y=y;
+			this.w=w;
+			this.h=h;
+		};
+		var object1= new object(10,11,3,4, "1");
+		var object3= new object(10,10,3,4, "2");
+		var object2= new object( 7, 8, 3, 10);
+		
+		game.add(object1);
+		game.add(object3);
+		
+		//alert(game.objects);
+		spyOn(game, "collide");
+		
+		expect(game.collide(object2)).toBe(game.objects[2]);
+		expect(game.collide(object2,"1")).toBeFalsy();
+	});
+	
 });
