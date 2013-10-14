@@ -124,8 +124,8 @@ describe("GameBoard", function(){
 		var object3= new object(10,10,3,4, "2");
 		var object2= new object( 7, 8, 3, 10);
 		
-		game.add(object1);
-		game.add(object3);
+		//game.add(object1);
+		//game.add(object3);
 		
 		//alert(game.objects);
 		spyOn(game, "collide");
@@ -134,5 +134,47 @@ describe("GameBoard", function(){
 		expect(game.collide(object2,"1")).toBeFalsy();
 	});
 	
+<<<<<<< HEAD
 	
+=======
+	it("GameBoard underscore iterate", function(){
+		var dummy1= new function(){
+			this.iter= function(){};
+		};
+		var dummy2= new function(){
+			this.iter= function(){};
+		};
+		
+		game.add(dummy1);
+		game.add(dummy2);
+		
+		spyOn(dummy1,"iter");
+		spyOn(dummy2,"iter");
+		
+		game.iterate("iter");
+		_.each(game.objects,function(elem){expect(elem.iter).toHaveBeenCalled()});
+	});
+	it("GameBoard underscore detect", function(){
+		//var dum_func= function(){
+		//	this.val=0;
+		//};
+		var dummy1= {
+			call: function(){},
+		};
+		var dummy2= {
+			call: function(){},
+		};	
+		game.add(dummy1);
+		game.add(dummy2);
+		spyOn(dummy1, "call"); 
+		spyOn(dummy2, "call");
+        game.detect(dummy1,dummy2);
+        waits(100);
+        runs(function(){
+			expect(game.objects[0]).toBeTruthy();
+			expect(game.objects[1]).toBeTruthy();
+        });
+		
+	});
+>>>>>>> ejercicio5
 });
