@@ -124,14 +124,32 @@ describe("GameBoard", function(){
 		var object3= new object(10,10,3,4, "2");
 		var object2= new object( 7, 8, 3, 10);
 		
-		game.add(object1);
-		game.add(object3);
+		//game.add(object1);
+		//game.add(object3);
 		
 		//alert(game.objects);
 		spyOn(game, "collide");
 		
 		expect(game.collide(object2)).toBe(game.objects[2]);
 		expect(game.collide(object2,"1")).toBeFalsy();
+	});
+	
+	it("GameBoard underscore iterate", function(){
+		var dummy1= new function(){
+			this.iter= function(){};
+		};
+		var dummy2= new function(){
+			this.iter= function(){};
+		};
+		
+		game.add(dummy1);
+		game.add(dummy2);
+		
+		spyOn(dummy1,"iter");
+		spyOn(dummy2,"iter");
+		
+		game.iterate("iter");
+		_.each(game.objects,function(elem){expect(elem.iter).toHaveBeenCalled()});
 	});
 	
 });
