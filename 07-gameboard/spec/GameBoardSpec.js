@@ -134,27 +134,29 @@ describe("GameBoard", function(){
 		expect(game.collide(object2,"1")).toBeFalsy();
 	});
 	
-<<<<<<< HEAD
-	
-=======
 	it("GameBoard underscore iterate", function(){
-		var dummy1= new function(){
-			this.iter= function(){};
+		var dummy1= {
+			step: function(){},
 		};
-		var dummy2= new function(){
-			this.iter= function(){};
+		var dummy2= {
+			step: function(){},
 		};
 		
 		game.add(dummy1);
 		game.add(dummy2);
 		
-		spyOn(dummy1,"iter");
-		spyOn(dummy2,"iter");
+		spyOn(dummy1,"step");
+		spyOn(dummy2,"step");
 		
-		game.iterate("iter");
-		_.each(game.objects,function(elem){expect(elem.iter).toHaveBeenCalled()});
+		game.iterate("step", 1.0);
+		waits(100);
+        runs(function(){
+			expect(dummy1.step).toHaveBeenCalled();
+			expect(dummy2.step).toHaveBeenCalled();
+        });
+		//_.each(game.objects,function(elem){expect(elem.iter).toHaveBeenCalled()});
 	});
-	it("GameBoard underscore detect", function(){
+	it("GameBoard detect", function(){
 		//var dum_func= function(){
 		//	this.val=0;
 		//};
@@ -176,5 +178,4 @@ describe("GameBoard", function(){
         });
 		
 	});
->>>>>>> ejercicio5
 });
