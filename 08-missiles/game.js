@@ -145,7 +145,7 @@ var PlayerMissile = function(x,y) {
     this.x = x - this.w/2; 
 
     this.y = y - this.h; 
-    this.vy = -700;
+    this.vy = -700; //velocidad de los misiles
 };
 
 PlayerMissile.prototype.step = function(dt)  {

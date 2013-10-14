@@ -27,3 +27,42 @@
     la clase en el prototipo
 
 */
+describe("PlayerMissile", function(){
+	
+	var canvas, ctx;
+
+    beforeEach(function(){
+		loadFixtures('index.html');
+
+		canvas = $('#game')[0];
+		expect(canvas).toExist();
+
+		ctx = canvas.getContext('2d');
+		expect(ctx).toBeDefined();
+    });
+	
+	it(" Playermyissile draw", function(){
+	
+		SpriteSheet = {
+			map : {missile: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 }},
+			draw : function () {}
+		}
+		 
+		Game = {width: 320, height: 480};
+ 
+		Mymissile = new PlayerMissile(20,30);
+		
+		spyOn(SpriteSheet, "draw"); 
+		
+		Mymissile.draw(ctx)
+			 
+		expect(SpriteSheet.draw).toHaveBeenCalled();
+		expect(SpriteSheet.draw.calls[0].args[0]).toEqual(ctx);
+		expect(SpriteSheet.draw.calls[0].args[1]).toEqual("missile");
+		expect(SpriteSheet.draw.calls[0].args[2]).toEqual(Mymissile.x);
+		expect(SpriteSheet.draw.calls[0].args[3]).toEqual(Mymissile.y);
+
+	});
+	
+	
+});
