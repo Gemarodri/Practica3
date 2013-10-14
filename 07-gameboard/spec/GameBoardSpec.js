@@ -91,8 +91,8 @@ describe("GameBoard", function(){
 			this.w=w;
 			this.h=h;
 		};
-		var object1= new object(1,2,3,4);
-		var object2= new object(1,2,3,4);
+		var object1= new object(10,11,3,4);
+		var object2= new object(10,10,3,4);
 		var object3= new object (7,8,3,10);
 		expect(game.overlap(object1,object2)).toBe(true);
 		expect(game.overlap(object1,object3)).toBe(false);
@@ -111,6 +111,27 @@ describe("GameBoard", function(){
 		spyOn(game, "draw");
 		game.draw("ctx");
 		expect(game.draw).toHaveBeenCalled();
+	});
+	it("GameBoard collide", function(){
+		 var object= function ( x, y, w, h, type){
+			this.type=type;
+			this.x=x;
+			this.y=y;
+			this.w=w;
+			this.h=h;
+		};
+		var object1= new object(10,11,3,4, "1");
+		var object3= new object(10,10,3,4, "2");
+		var object2= new object( 7, 8, 3, 10);
+		
+		game.add(object1);
+		game.add(object3);
+		
+		//alert(game.objects);
+		spyOn(game, "collide");
+		
+		expect(game.collide(object2)).toBe(game.objects[2]);
+		expect(game.collide(object2,"1")).toBeFalsy();
 	});
 	
 });
